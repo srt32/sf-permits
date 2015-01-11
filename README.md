@@ -3,7 +3,7 @@ Search built on top of San Francisco Building Permits.
 Data sourced from
 [http://sfdbi.org/building-permits-filed-and-issued](http://sfdbi.org/building-permits-filed-and-issued)
 
-TO regenerate the list of links on the page open a browser console and run:
+To regenerate the list of links on the page open a browser console and run:
 
 ```
 links = []
