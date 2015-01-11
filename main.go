@@ -18,7 +18,7 @@ func main() {
 	for _, url := range links {
 		if isExcelDocument(url) {
 			wg.Add(1)
-			go downloadFromURL(url, wg)
+			go downloadFromURL(url, &wg)
 		} else {
 			// follow redirects
 			// if then ends with .xlsx or .xls fetch it
@@ -28,7 +28,8 @@ func main() {
 	wg.Wait()
 }
 
-func downloadFromURL(url string, wg sync.WaitGroup) error {
+func downloadFromURL(url string, wg *sync.WaitGroup) error {
+	defer wg.Done()
 	tokens := strings.Split(url, "/")
 	fileName := tokens[len(tokens)-1]
 	fmt.Printf("Downloading %v to %v \n", url, fileName)
@@ -54,7 +55,6 @@ func downloadFromURL(url string, wg sync.WaitGroup) error {
 
 	fmt.Printf("Download complete for %v \n", fileName)
 
-	defer wg.Done()
 	return nil
 }
 
