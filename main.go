@@ -7,27 +7,31 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 )
 
 func main() {
 	links := parseLinks()
 
+	var wg sync.WaitGroup
+
 	for _, url := range links {
 		if isExcelDocument(url) {
-			// parallelize me!
-			downloadFromURL(url)
+			wg.Add(1)
+			go downloadFromURL(url, wg)
 		} else {
 			// follow redirects
 			// if then ends with .xlsx or .xls fetch it
-			fmt.Printf("Skipping: %v", url)
+			fmt.Printf("Skipping: %v \n", url)
 		}
 	}
+	wg.Wait()
 }
 
-func downloadFromURL(url string) error {
+func downloadFromURL(url string, wg sync.WaitGroup) error {
 	tokens := strings.Split(url, "/")
 	fileName := tokens[len(tokens)-1]
-	fmt.Printf("Downloading %v to %v", url, fileName)
+	fmt.Printf("Downloading %v to %v \n", url, fileName)
 
 	content, err := os.Create("temp_docs/" + fileName)
 	if err != nil {
@@ -48,6 +52,9 @@ func downloadFromURL(url string) error {
 		return err
 	}
 
+	fmt.Printf("Download complete for %v \n", fileName)
+
+	defer wg.Done()
 	return nil
 }
 
