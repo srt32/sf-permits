@@ -20,6 +20,7 @@ func main() {
 	// if the link ends with .xlsx, .xls
 	for _, url := range links {
 		if strings.HasSuffix(url, ".xlsx") {
+			fmt.Printf("Fetching %v ========", url)
 			resp, err := http.Get(url)
 			if err != nil {
 				fmt.Printf("Could not fetch %v because %v", url, err)
