@@ -10,7 +10,7 @@ end
 get "/permits" do
   content_type :json
 
-  permit = {
+  permit1 = {
      id: 1,
      created_at: DateTime.now,
      application_id: "123",
@@ -21,5 +21,16 @@ get "/permits" do
      city: "San Francisco",
   }
 
-  [permit].to_json
+  permit2 = {
+     id: 2,
+     created_at: DateTime.now,
+     application_id: "321",
+     file_date: DateTime.now,
+     street_number: "345",
+     street: "Belcher",
+     street_suffix: "St",
+     city: "San Francisco",
+  }
+
+  [permit1, permit2].to_json
 end
