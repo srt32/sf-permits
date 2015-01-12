@@ -1,0 +1,17 @@
+<html ng-app="permitsApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+    <script src="permits_app.js"></script>
+  </head>
+
+  <h1>San Francisco Building Permits Search</h1>
+
+  <body ng-controller="permitsCtrl as permits">
+  Search: <input ng-model="query"></input>
+    <ul>
+      <li ng-repeat="permit in permits.permits | filter:query">
+        {{permit.id}} - {{permit.street_number}} {{permit.street}} {{permit.street_suffix}}
+      </li>
+    </ul>
+  </body>
+</html>
